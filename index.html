@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://cdn.pixabay.com/photo/2018/06/25/19/34/love-3497782_1280.png'); /* Add your background image here */
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding-top: 20%;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+        }
+        .box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            animation: fadeIn 2s ease-in-out;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            transition: transform 0.2s;
+            position: absolute;
+        }
+        #noButton {
+            background-color: #e74c3c;
+            top: 50%;
+            left: 40%;
+            animation: floatNo 3s infinite ease-in-out;
+        }
+        #yesButton {
+            background-color: #2ecc71;
+            top: 50%;
+            left: 50%;
+            animation: floatYes 3s infinite ease-in-out;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes floatNo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes floatYes {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+        .quote {
+            margin-top: 20px;
+            font-style: italic;
+            animation: fadeIn 3s ease-in-out;
+        }
+        .circle-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 300px;
+            height: 300px;
+            background: red;
+            border-radius: 50%;
+            animation: popup 1s ease-in-out forwards;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .circle-popup h2 {
+            font-size: 24px;
+            color: white;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .circle-popup .quote {
+            font-size: 18px;
+            color: white;
+            text-align: center;
+            margin: 10px 20px;
+        }
+        .circle-popup button {
+            background-color: #e74c3c;
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 10px; /* Change position to bottom */
+        }
+        @keyframes popup {
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+        .custom-popup {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            display: none;
+            animation: fadeInOut 4s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            10%, 90% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Will you be my girlfriend?</h1>
+        <button id="noButton">No</button>
+        <button id="yesButton">Yes</button>
+    </div>
+    <div class="quote">"You are my today and all of my tomorrows."</div>
+    <div class="circle-popup" id="circlePopup">
+        <h2>You said Yes! 🎉❤️</h2>
+        <div class="quote">"Every moment spent with you is like a beautiful dream come true."</div>
+        <button onclick="redirectToWhatsApp()">Close</button>
+    </div>
+    <div class="custom-popup" id="customPopup">Think again, please 😔</div>
+
+    <script>
+        const noButton = document.getElementById('noButton');
+        const yesButton = document.getElementById('yesButton');
+        const circlePopup = document.getElementById('circlePopup');
+        const customPopup = document.getElementById('customPopup');
+
+        noButton.addEventListener('click', function() {
+            const maxWidth = window.innerWidth - noButton.offsetWidth;
+            const maxHeight = window.innerHeight - noButton.offsetHeight;
+            const randomX = Math.floor(Math.random() * maxWidth);
+            const randomY = Math.floor(Math.random() * maxHeight);
+
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+
+            showCustomPopup();
+
+            noButton.classList.add('shake');
+            setTimeout(() => noButton.classList.remove('shake'), 500);
+        });
+
+        yesButton.addEventListener('click', function() {
+            showPopup();
+        });
+
+        function showPopup() {
+            circlePopup.style.display = 'flex';
+            setTimeout(() => circlePopup.style.transform = 'translate(-50%, -50%) scale(1)', 10);
+        }
+
+        function closePopup() {
+            circlePopup.style.transform = 'translate(-50%, -50%) scale(0)';
+            setTimeout(() => circlePopup.style.display = 'none', 1000);
+        }
+
+        function showCustomPopup() {
+            customPopup.style.display = 'block';
+            setTimeout(() => customPopup.style.display = 'none', 4000);
+        }
+
+        function redirectToWhatsApp() {
+            const message = encodeURIComponent("Yes, I accept your proposal! ❤️");
+            window.location.href = `https://wa.me/919319398359?text=${message}`; // Replace <your-whatsapp-number> with your actual WhatsApp number
+        }
+    </script>
+</body>
+</html>
